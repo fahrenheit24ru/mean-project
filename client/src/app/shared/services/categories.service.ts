@@ -1,43 +1,46 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-// Customs
-import { Category } from '../interfaces/category';
-import { Message } from '../interfaces/message';
+import {Injectable} from '@angular/core'
+import {HttpClient} from '@angular/common/http'
+import {Category, Message} from '../interfaces'
+import {Observable} from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriesService {
-  constructor(private _http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   fetch(): Observable<Category[]> {
-    return this._http.get<Category[]>('/api/category');
+    return this.http.get<Category[]>('/api/category')
   }
 
   getById(id: string): Observable<Category> {
-    return this._http.get<Category>(`/api/category/${id}`);
+    return this.http.get<Category>(`/api/category/${id}`)
   }
 
   create(name: string, image?: File): Observable<Category> {
-    const formData = new FormData();
+    const fd = new FormData()
+
     if (image) {
-      formData.append('image', image, image.name);
+      fd.append('image', image, image.name)
     }
-    formData.append('name', name);
-    return this._http.post<Category>('/api/category', formData);
+    fd.append('name', name)
+
+    return this.http.post<Category>('/api/category', fd)
   }
 
   update(id: string, name: string, image?: File): Observable<Category> {
-    const formData = new FormData();
+    const fd = new FormData()
+
     if (image) {
-      formData.append('image', image, image.name);
+      fd.append('image', image, image.name)
     }
-    formData.append('name', name);
-    return this._http.patch<Category>(`/api/category/${id}`, formData);
+    fd.append('name', name)
+
+    return this.http.patch<Category>(`/api/category/${id}`, fd)
   }
 
   delete(id: string): Observable<Message> {
-    return this._http.delete<Message>(`/api/category/${id}`);
+    return this.http.delete<Message>(`/api/category/${id}`)
   }
 }
