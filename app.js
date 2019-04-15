@@ -15,13 +15,11 @@ const positionRoutes = require('./routes/position.route');
 const app = express();
 
 mongoose
-  .connect(
-    keys.mongoURI, {
-      useNewUrlParser: true
-    }
-  )
+  .connect(keys.mongoURI, {
+    useNewUrlParser: true
+  })
   .then(() => console.log('MongoDB is connected'))
-  .catch(err => console.log('MongoDB connection error: ', err));
+  .catch((err) => console.log('MongoDB connection error: ', err));
 
 app.use(passport.initialize());
 require('./middleware/passport.middleware')(passport);
@@ -30,9 +28,11 @@ app.use(morgan('dev'));
 app.use('/uploads', express.static('uploads'));
 app.use(cors());
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 app.use(bodyParser.json());
 
 app.use('/api/analytic', analyticRoutes);
